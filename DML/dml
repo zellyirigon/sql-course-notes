@@ -1,0 +1,55 @@
+/* DML - Data Manipulation Language ( INSERT, UPDATE, DELETE)
+
+INSERT INTO table_name (column1, column2, column3,...) -> specifying the columns is optional if no columns are specified, SQL expects values for ALL columns
+VALUES (value1, value2, value3,...),
+		(value1, value2, value3,...) -> multiple inserts
+
+Rule: Match the number of columns and values
+Note: Columns not included in INSERT become NULL(unless a default or constraint exists)*/
+INSERT INTO customers (id, first_name, country, score)
+VALUES	(6, 'Julia', 'Brazil', 100),
+		(7, 'Laura', 'Portugal', NULL),
+		(8, 'Sam', 'Germany', NULL),
+		(9, 'Naty', 'UK', NULL),
+		(10, 'Julius', 'Brazil', NULL),
+		(11, 'Marcus', 'New Zealand', NULL);
+/*
+UPDATE Command-> to modify existing data
+Syntax:
+UPDATE table_name
+	SET column1 = value1,
+		column2 = value2
+	WHERE <condition>
+Note: Always use WHERE to avoid UPDATING all rows unintentionally
+BEST PRACTICE: Check with SELECT before running UPDATE to avoid updating the wrong data*/
+
+SELECT * FROM customers;
+--Change the score of customer 4 to 0 and update the country to UK
+UPDATE customers
+	SET score =0,
+		country = 'UK'
+	WHERE id = 4;
+SELECT * FROM customers
+WHERE id = 4;
+
+--Update all customers with a NULL score by setting their score to 0.
+UPDATE customers
+	SET score = 0
+	WHERE score IS NULL;
+
+SELECT * FROM customers
+WHERE score IS NULL;
+
+/*
+DELETE command
+Syntax: 
+	DELETE FROM table_name
+	WHERE <condition>
+Note: Always use WHERE to avoid DELETING all rows unintentionally*/
+
+--Delete all customers with an ID greater than 5.
+DELETE customers
+WHERE id >5; --CAUTION: without a WHERE, all rows will be updated!
+
+--TRUNCATE: delete all lines from the table. Faster than DELETE, clears the whole table at once without checking or logging
+TRUNCATE TABLE persons;
