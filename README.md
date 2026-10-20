@@ -12,8 +12,8 @@ I already use SQL at work for reporting. This repo is where I go through the fun
 | [DDL](02-ddl) | CREATE, ALTER, DROP | ✅ |
 | [DML](03-dml) | INSERT, UPDATE, DELETE | ✅ |
 | [Filtering](04-filtering) | WHERE, BETWEEN, IN, LIKE | ✅ |
-| [Combining data](05-combining-data) | Joins, UNION, INTERSECT, EXCEPT | 🔄 |
-| [Row functions](06-row-functions) | Strings, dates, NULLs, CASE | ⬜ |
+| [Combining data](05-combining-data) | Joins, UNION, INTERSECT, EXCEPT | ✅ |
+| [Row functions](06-row-functions) | Strings, dates, NULLs, CASE | 🔄 |
 | [Aggregate & analytical](07-aggregate-analytical) | GROUP BY, window functions, running totals | ⬜ |
 | [Advanced](08-advanced) | Subqueries, CTEs, views, procedures | ⬜ |
 | [Performance](09-performance) | Indexes, partitions, execution plans | ⬜ |
