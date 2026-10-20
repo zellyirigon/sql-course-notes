@@ -1,0 +1,21 @@
+/*
+Data Cleaning tools:
+* String Functions
+* Number Functions
+* Date Functions
+* Null Functions
+* CASE WHEN Statement
+
+What are the FUNCTIONS in SQL?
+A built-in SQL code that accepts an input value, processes it, and returns an output value
+
+SQL FUNCTIONS TYPES:
+1- Single-Row functions - Row-level calculations (one input -> one output) -> more related to preparing data (data engineer)
+	* String Functions
+	* Numeric Functions
+	* Date & Time Functions
+	* Null Functions
+
+2- Multi-Row Functions - Aggregations (multiple inputs -> one output) -> more for analysis (data analysts)
+	* Aggregate Functions (basics)
+	* Window Functions (advanced
