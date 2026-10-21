@@ -1,0 +1,62 @@
+/*STRING FUNCTIONS
+3 Groups:
+1. Data Manipulation
+	* CONCAT
+	* UPPER
+	* LOWER
+	* TRIM
+	* REPLACE
+2. Data Calculation
+	* LEN
+3. String Extraction
+	* LEFT
+	* RIGHT
+	* SUBSTRING*/
+
+-- CONCAT: combine multiple strings into one
+-- Task: Show a list of customers' first name and country into one column
+SELECT  first_name,
+		country,
+		CONCAT(first_name,': ', country) AS 'customer_list'
+FROM customers
+
+-- UPPER and LOWER: convert all characters to uppercase and lowercase
+-- Task: Transform the customers' first name to lowercase
+SELECT  first_name,
+		country,
+		CONCAT(first_name,': ', country) AS customer_list,
+		LOWER(first_name) AS low_case,
+		UPPER(first_name) AS upper_case
+FROM customers
+
+-- TRIM: removes leading and trailing spaces (before and after the string, not in the middle).
+-- By default removes only regular spaces, not tabs, line breaks or CHAR(160).
+-- Custom characters: TRIM('chars' FROM column)
+
+-- Task: Find customers whose first name contains leading or trailing spaces
+SELECT  first_name,
+		LEN(first_name) AS len,
+		LEN(TRIM(first_name)) AS len_trim_name,
+		LEN(first_name) - LEN(TRIM(first_name)) AS flag
+		--TRIM()
+FROM customers
+WHERE LEN(first_name) != LEN(TRIM(first_name))
+
+--LEFT: Extracts a specific number of characters from the start
+--RIGHT: Extracts a specific number of characters from the end
+--LEFFT(value,NrofCharacters) / RIGHT(value,NrofCharacters)
+
+--Task: Retrieve the last two characters of each first name
+SELECT first_name,
+	 RIGHT(TRIM(first_name),2) AS last_2_characters,
+	 LEFT(TRIM(first_name),3) AS first_3_characters
+FROM customers
+
+--SUBSTRING: Extracts a part of a string at a specified position
+--SINTAX: SUBSTRING(value, start,length)
+
+--Task: Retrieve a list of customers' first names after removing the first character
+SELECT 
+		first_name,
+		SUBSTRING(TRIM(first_name),2,Len(first_name)) AS sub_name
+FROM customers
