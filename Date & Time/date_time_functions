@@ -1,0 +1,69 @@
+/* DATE & TIME FUNCTIONS
+* Categories:
+1. Part Extraction
+	a) DAY -> returns the day from a date
+	b) MONTH -> returns the month from a date
+	c) YEAR -> returns the year from a date
+	d) DATEPART -> returns a specific part of a date as a number(week, quarter)
+	e) DATENAME -> returns the name of a specific part of the date
+	f) DATETRUNC -> truncates the date to the specific part (reset date)
+	g) EOMONTH
+
+2. Format & Casting
+	a) FORMAT
+	b) CONVERT
+	c) CAST
+
+3. Calculations
+	a) DATEADD
+	b) DATEDIFF
+
+4. Validation
+	a) ISDATE*/
+
+-- DAY(), MONTH() and YEAR()
+SELECT 
+		OrderID,
+		CreationTime,
+		DAY(CreationTime) AS Day,
+		MONTH(CreationTime) AS Month,
+		YEAR(CreationTime) AS Year
+FROM sales.Orders
+
+-- DATEPART()
+-- Sintax: DATEPART(part, date)
+SELECT 
+		OrderID,
+		CreationTime,
+		DATEPART(year,CreationTime) AS year_dp,
+		DATEPART(quarter, CreationTime) AS quarter_dp,
+		DATEPART(hour, CreationTime) AS hour_dp,
+		DATEPART(week, CreationTime) week_dp
+FROM sales.Orders
+
+-- DATENAME()
+-- the output data type is a string
+SELECT
+	OrderID,
+	CreationTime,
+	DATENAME(month, CreationTime) AS month,
+	DATENAME(weekday, CreationTime) AS weekday
+FROM sales.Orders
+
+--DATETRUNC()
+-- Date part resets to 01 and Time part resets to 00
+SELECT
+	OrderID,
+	CreationTime,
+	DATETRUNC(year, CreationTime) AS year,
+	DATETRUNC(month, CreationTime) AS month,
+	DATETRUNC(week, CreationTime) AS week
+FROM sales.Orders
+
+-- Using date trunc to count orders at the month level
+-- Date Trunc is great for aggregations 
+SELECT
+	DATETRUNC(month, CreationTime) AS creation,
+	COUNT(*)
+FROM sales.Orders
+GROUP BY DATETRUNC(month, CreationTime)
