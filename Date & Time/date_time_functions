@@ -1,13 +1,16 @@
-/* DATE & TIME FUNCTIONS
+/* ##########################
+	DATE & TIME FUNCTIONS
+   ##########################
+
 * Categories:
 1. Part Extraction
-	a) DAY -> returns the day from a date
-	b) MONTH -> returns the month from a date
-	c) YEAR -> returns the year from a date
-	d) DATEPART -> returns a specific part of a date as a number(week, quarter)
-	e) DATENAME -> returns the name of a specific part of the date
-	f) DATETRUNC -> truncates the date to the specific part (reset date)
-	g) EOMONTH
+	a) DAY 
+	b) MONTH 
+	c) YEAR
+	d) DATEPART
+	e) DATENAME 
+	f) DATETRUNC 
+	g) EOMONTH 
 
 2. Format & Casting
 	a) FORMAT
@@ -21,7 +24,14 @@
 4. Validation
 	a) ISDATE*/
 
--- DAY(), MONTH() and YEAR()
+/* ##########################
+	PART EXTRACTION
+   ##########################*/
+
+/*DAY() -> returns the day from a date
+  MONTH() -> returns the month from a date
+  YEAR()  -> returns the year from a date*/
+
 SELECT 
 		OrderID,
 		CreationTime,
@@ -30,7 +40,7 @@ SELECT
 		YEAR(CreationTime) AS Year
 FROM sales.Orders
 
--- DATEPART()
+-- DATEPART() -> returns a specific part of a date as a number(week, quarter)
 -- Sintax: DATEPART(part, date)
 SELECT 
 		OrderID,
@@ -41,7 +51,7 @@ SELECT
 		DATEPART(week, CreationTime) week_dp
 FROM sales.Orders
 
--- DATENAME()
+-- DATENAME()-> returns the name of a specific part of the date
 -- the output data type is a string
 SELECT
 	OrderID,
@@ -50,7 +60,7 @@ SELECT
 	DATENAME(weekday, CreationTime) AS weekday
 FROM sales.Orders
 
---DATETRUNC()
+--DATETRUNC()-> truncates the date to the specific part (reset date)
 -- Date part resets to 01 and Time part resets to 00
 SELECT
 	OrderID,
@@ -61,9 +71,85 @@ SELECT
 FROM sales.Orders
 
 -- Using date trunc to count orders at the month level
--- Date Trunc is great for aggregations 
+
+--##Date Trunc is great for aggregations##
 SELECT
 	DATETRUNC(month, CreationTime) AS creation,
 	COUNT(*)
 FROM sales.Orders
 GROUP BY DATETRUNC(month, CreationTime)
+
+--EOMONTH()-> returns the last day of the month
+SELECT
+	OrderID,
+	CreationTime,
+	EOMONTH(CreationTime) AS EndOfMonth,
+	CAST(DATETRUNC(month,CreationTime) AS Date) AS StartofMonth
+FROM sales.Orders
+
+
+/* ##########################
+	DATE PARTS (Use Cases)
+   ##########################*/
+
+--How many orders were placed each year?*/
+SELECT
+	Year(OrderDate) AS Year,
+	COUNT(*) AS Total_Orders_Year
+FROM Sales.Orders
+GROUP BY Year(OrderDate)
+
+--How many orders were placed each month?
+SELECT 
+	DATENAME(month, OrderDate) AS Month,
+	COUNT(*) AS Total_Orders_Month
+FROM Sales.Orders
+GROUP BY DATENAME(month, OrderDate)
+
+--Show all orders that were placed during the month of February
+
+--##BEST PRACTICE: Filtering data using an Integer is faster than using a string / Avoid using DATENAME for filtering data, instead use DATEPART##
+SELECT 
+	*
+FROM Sales.Orders
+WHERE MONTH(OrderDate) = 2
+
+/*	Data Type Output:
+       DAY / MONTH / YEAR / DATEPART -> Integer
+	   DATENAME -> String
+	   DATETRUNC -> DateTime
+	   EOMONTH -> Date*/
+
+
+/* ##########################
+	FORMAT & CASTING
+   ##########################*/
+   --FORMAT() , CONVERT() & CAST()
+
+/*
+==============================================================
+  DATE AND TIME FORMAT:  yyyy-MM-dd HH:mm:ss
+==============================================================
+  Example:   2026 - 10 - 28   07 : 18 : 35
+
+  Part      | Format  | Value | Note
+  ----------+---------+-------+-----------------------------
+  Year      | yyyy    | 2026  | 4 digits
+  Month     | MM      | 10    | uppercase M = month
+  Day       | dd      | 28    | 2 digits
+  Hour      | HH      | 07    | HH = 24h  (hh = 12h)
+  Minutes   | mm      | 18    | lowercase m = minute
+  Seconds   | ss      | 35    | 2 digits
+==============================================================
+*/
+--MM vs mm is the classic trap: uppercase is month, lowercase is minute. Swap them and yyyy-mm-dd returns “2026-18-28"
+
+/*==============================================================
+	 Date standard Representations:
+
+	 yyyy-MM-dd -> International Standard (ISO 8601)   -> SQL Server uses that formart
+
+	 MM-dd-yyyy -> USA Standard
+
+	 dd-MM-yyyy -> European Standard
+ ===============================================================*/
