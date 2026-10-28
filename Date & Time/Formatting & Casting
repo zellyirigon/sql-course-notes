@@ -1,0 +1,51 @@
+/* ##########################
+	  FORMAT & CAST
+   ##########################
+  
+  Formatting: change the format of a value from one to another, changing how the data looks
+	Functions: FORMAT() and CONVERT()
+
+  Casting: change the data type from one to another
+	Functions: CAST() and CONVERT()
+
+
+==============================================================
+  DATE AND TIME FORMAT:  yyyy-MM-dd HH:mm:ss
+==============================================================
+  Example:   2026 - 10 - 28   07 : 18 : 35
+
+  Part      | Format  | Value | Note
+  ----------+---------+-------+-----------------------------
+  Year      | yyyy    | 2026  | 4 digits
+  Month     | MM      | 10    | uppercase M = month
+  Day       | dd      | 28    | 2 digits
+  Hour      | HH      | 07    | HH = 24h  (hh = 12h)
+  Minutes   | mm      | 18    | lowercase m = minute
+  Seconds   | ss      | 35    | 2 digits
+  AM/PM	    | tt	  | AM/PM |
+==============================================================
+
+--MM vs mm is the classic trap: uppercase is month, lowercase is minute. Swap them and yyyy-mm-dd returns “2026-18-28"
+
+==============================================================
+	 Date Standard Representations:
+
+	 yyyy-MM-dd -> International Standard (ISO 8601)   -> SQL Server uses that formart
+
+	 MM-dd-yyyy -> USA Standard
+
+	 dd-MM-yyyy -> European Standard
+ ===============================================================*/
+
+ --FORMAT
+ --Sintax: FORMAT(value, format[,culture])
+
+ --Show CreationTime using the following format:
+ --Day Wed Jan Q1 2025 12:34:56 PM
+ 
+ SELECT
+	OrderID,
+	CreationTime,
+	'Day '+ FORMAT(CreationTime, 'ddd MMM ') + 'Q' + 
+	DATENAME(quarter,CreationTime) + FORMAT(CreationTime, ' yyyy hh:mm:ss tt') CustomisedFormat
+FROM Sales.Orders
