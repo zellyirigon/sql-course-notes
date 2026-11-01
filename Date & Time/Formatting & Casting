@@ -49,3 +49,24 @@
 	'Day '+ FORMAT(CreationTime, 'ddd MMM ') + 'Q' + 
 	DATENAME(quarter,CreationTime) + FORMAT(CreationTime, ' yyyy hh:mm:ss tt') CustomisedFormat
 FROM Sales.Orders
+
+--CONVERT
+--Change the data type
+
+--Sintax: CONVERT(DataType, Value [,style])
+
+SELECT
+	CreationTime,
+	CONVERT(DATE,CreationTime) AS [DateTime to Date Convert],  --You can cast and formating in the same time
+	CONVERT(VARCHAR, CreationTime, 32) AS [USA Std. Style:32],  --Style is optional
+	CONVERT(VARCHAR, CreationTime, 34) AS [EURO Std. Style:34]
+FROM Sales.Orders
+
+--CAST
+--Change the data type to another one
+--Syntax: CAST(value AS data_type)
+
+SELECT 
+	CreationTime,
+	CAST(CreationTime AS Date) AS [DateTime to Date]
+FROM Sales.Orders
