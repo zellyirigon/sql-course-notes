@@ -1,0 +1,33 @@
+/*##########################
+	CALCULATIONS
+  ##########################
+
+  DATEADD() -> adds or subtracts a specific time interval to/from a date
+  Syntax:
+		DATEADD(part, interval, date)*/
+SELECT
+	OrderDate,
+	DATEADD(year,2,OrderDate) AS TwoYearsLater,
+	DATEADD(year, -1, OrderDate) AS OneYearBefore,
+	DATEADD(month,3, OrderDate) As ThreeMonthsLater,
+	DATEADD(day,5,OrderDate) AS FiveDaysLater
+
+FROM Sales.Orders
+
+  /*DATEDIFF() -> Find the difference between two dates
+    Syntax:
+		DATEDIFF(part,start_date,end_date)*/
+SELECT 
+	OrderDate,
+	ShipDate,
+	DATEDIFF(year,OrderDate, ShipDate) AS DateDiffYear,
+	DATEDIFF(month, OrderDate, ShipDate) AS DateDiffMonth,
+	DATEDIFF(day,OrderDate, ShipDate) AS DateDiffDay
+
+FROM Sales.Orders
+--Calculate the age of employees
+SELECT 
+	FirstName,
+	BirthDate,
+	DATEDIFF(year, BirthDate, GETDATE()) AS Age --GETDATE() function to get the current date in SQL
+FROM Sales.Employees
