@@ -1,0 +1,29 @@
+ /*##########################
+	Validation
+   ##########################
+
+  ISDATE() -> Check if a value is a date
+	Returns 1 if the string value is a valid date, and 0 if it is not a valid date
+  Syntax: 
+	ISDATE(value)*/
+
+SELECT 
+		ISDATE('123') DateCheck1,
+		ISDATE('2026-11-3') DateCheck2,
+		ISDATE('2026') DateCheck3,
+		ISDATE('06') DateCheck4
+
+--Casting string to date, even if I have bad data quality
+SELECT
+	OrderDate,
+	ISDATE(OrderDate),
+	CASE WHEN ISDATE(OrderDate) =1 THEN CAST(OrderDate AS DATE)
+		ELSE '9999-01-01'
+	END NewOrderDate
+FROM
+(
+	SELECT '2025-08-20' AS OrderDate UNION
+	SELECT '2026-11-04' UNION
+	SELECT '2026-12-23' UNION
+	SELECT '2026-11'
+) t
